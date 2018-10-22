@@ -10,3 +10,6 @@
 !/mpi_vect_mult
 !/mpi_vect_mult/**/*.c
 !/mpi_vect_mult/*.pdf
+!/assignment03
+!/assignment03/**/*.c
+!/assignment03/*.pdf
