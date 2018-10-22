@@ -1,3 +1,12 @@
 *
 !.gitignore
-!assignment01/
+!/assignment01
+!/assignment01/**/*.c
+!/assignment01/*.pdf
+!Assignment 2
+!Assignment 2/Makefile
+!Assignment 2/*.pdf
+!Assignment 2/**/*.c
+!/mpi_vect_mult
+!/mpi_vect_mult/**/*.c
+!/mpi_vect_mult/*.pdf
