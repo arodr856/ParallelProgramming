@@ -10,7 +10,7 @@ double generate_num();
 void estimate_pi(double *pi_estimate, int num_in_circle, int num_of_tosses);
 
 int main(int argc, char** argv){
-
+        // comment
 	int num_of_tosses, num_in_circle;
 
 	int local_num_in_circle, local_num_of_tosses;
