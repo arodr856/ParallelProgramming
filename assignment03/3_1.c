@@ -37,13 +37,13 @@ int main(int argc, char** argv){
 	
 	if(rank == 0){
 		estimate_pi(&pi_estimate, num_in_circle, num_of_tosses);
-		printf("pi estimate: %f\n", pi_estimate);
+		printf("pi estimate: %lf\n", pi_estimate);
 	}
 
    
 	MPI_Finalize();
     return 0;
-}
+} /* main */
 
 void enter_not(int *num_of_tosses, int rank, MPI_Comm comm){
 	if(rank == 0){
@@ -52,12 +52,12 @@ void enter_not(int *num_of_tosses, int rank, MPI_Comm comm){
 		printf("\n");
 	}
 	MPI_Bcast(num_of_tosses, 1, MPI_INT, 0, comm);
-}
+} /* enter_not */
 
 
 void estimate_pi(double *pi_estimate, int num_in_circle, int num_of_tosses){
 	*pi_estimate = (4 * num_in_circle) / ((double) num_of_tosses);
-}
+} /* estimate_pi */
 
 int get_num_in_circle(int local_num_of_tosses){
 	int number_in_circle = 0;
@@ -69,9 +69,9 @@ int get_num_in_circle(int local_num_of_tosses){
 			number_in_circle++;
 	}
 	return number_in_circle;
-}
+} /* get_num_in_circle */
 
 double generate_num(){
 	return (double)rand()/RAND_MAX*2.0-1.0;
-}
+} /* generate_num */
 
