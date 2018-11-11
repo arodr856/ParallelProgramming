@@ -3,6 +3,7 @@
 #include <math.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <unistd.h>
 #include "timer.h"
 
 const int MAX_THREADS = 1024;
@@ -11,7 +12,7 @@ long thread_count;
 long long n;
 double sum;
 
-sem_t sem;
+sem_t *sem;
 
 void* Thread_sum(void* rank);
 
@@ -19,14 +20,39 @@ void* Thread_sum(void* rank);
 void Get_args(int argc, char* argv[]);
 void Usage(char* prog_name);
 double Serial_pi(long long n);
+double generate_num();
 
 int main(int argc, char* argv[]) {
-   long       thread;  /* Use long in case of a 64-bit system */
-   pthread_t* thread_handles;
-   double start, finish, elapsed;
+    long       thread;  /* Use long in case of a 64-bit system */
+    pthread_t* thread_handles;
+    double start, finish, elapsed;
 
-   /* Get number of threads from command line */
-   Get_args(argc, argv);
+    sem_unlink("sem");
+    srand(time(0));
+    /* Get number of threads from command line */
+    Get_args(argc, argv);
+
+    sem = sem_open("sem", O_CREAT, 0644, 1);
+
+    thread_handles = malloc(thread_count * sizeof(pthread_t));
+
+    int thread_n = n / thread_count;
+
+    for(int i = 0; i < thread_count; i++){
+        pthread_create(thread_handles+i, NULL, Thread_sum, (void *)thread_n);
+    }
+
+
+    for(int i = 0; i < thread_count; i++){
+        pthread_join(thread_handles[i], NULL);
+    }
+
+    printf("sum: %lf\n", sum);
+    double pi_estimate = (4 * sum) / ((double) n);
+    printf("pi estimate: %lf\n", pi_estimate);
+
+    sem_close(sem);
+    sem_unlink("sem");
 
 
    return 0;
@@ -35,8 +61,24 @@ int main(int argc, char* argv[]) {
 /*------------------------------------------------------------------*/
 void* Thread_sum(void* rank) {
 
+     // printf("Number of thread tosses: %d\n", (int) rank);
+    for(int toss = 0; toss < (int) rank; toss++){
+      double x = generate_num();
+      double y = generate_num();
+      double distance_squared = (x*x) + (y*y);
+      if(distance_squared <= 1){
+        sem_wait(sem);
+        sum++;
+        sem_post(sem);
+      }  
+    }
+
    return NULL;
 }  /* Thread_sum */
+
+double generate_num(){
+	return (double)rand()/RAND_MAX*2.0-1.0;
+} /* generate_num */
 
 /*------------------------------------------------------------------
  * Function:   Serial_pi
