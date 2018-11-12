@@ -23,3 +23,10 @@
 !Assignment 4/Makefile
 !Assignment 4/*.pdf
 !Assignment 4/**/*.c
+
+!/assignment05
+!/assignment05/**/*.c
+!/assignment05/*.pdf
+!/assignment05/Makefile
+
+
