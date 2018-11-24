@@ -80,6 +80,7 @@ void* Trap(void* data){
     pthread_mutex_lock(&mutex);
     trap_sums += sum_of_traps;
     pthread_mutex_unlock(&mutex);
+    free(data);
     return NULL;
 
 }
