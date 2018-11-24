@@ -29,4 +29,9 @@
 !/assignment05/*.pdf
 !/assignment05/Makefile
 
+!/assignment06
+!/assignment06/**/*.c
+!/assignment06/*.pdf
+!/assignment06/Makefile
+
 
